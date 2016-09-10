@@ -46,6 +46,7 @@ class Polygon2D : public Node2D {
 	float tex_rot;
 	bool invert;
 	float invert_border;
+	float vertex_alpha;
 
 	Vector2 offset;
 	mutable bool rect_cache_dirty;
@@ -71,6 +72,9 @@ public:
 
 	void set_vertex_colors(const DVector<Color>& p_colors);
 	DVector<Color> get_vertex_colors() const;
+
+	void set_vertex_alpha(const float& p_val);
+	float get_vertex_alpha() const;
 
 	void set_texture(const Ref<Texture>& p_texture);
 	Ref<Texture> get_texture() const;

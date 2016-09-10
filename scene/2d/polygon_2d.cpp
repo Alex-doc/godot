@@ -182,6 +182,7 @@ void Polygon2D::_notification(int p_what) {
 				}
 				for(int i=color_len;i<len;i++){
 					colors[i]=color;
+					colors[i].a = vertex_alpha;
 				}
 			}
 
@@ -235,6 +236,15 @@ void Polygon2D::set_vertex_colors(const DVector<Color>& p_colors){
 DVector<Color> Polygon2D::get_vertex_colors() const{
 
 	return vertex_colors;
+}
+
+void Polygon2D::set_vertex_alpha(const float& p_val) {
+	vertex_alpha = p_val;
+	update();
+}
+
+float Polygon2D::get_vertex_alpha() const {
+	return vertex_alpha;
 }
 
 void Polygon2D::set_texture(const Ref<Texture>& p_texture){
@@ -345,6 +355,9 @@ void Polygon2D::_bind_methods() {
 	ObjectTypeDB::bind_method(_MD("set_vertex_colors","vertex_colors"),&Polygon2D::set_vertex_colors);
 	ObjectTypeDB::bind_method(_MD("get_vertex_colors"),&Polygon2D::get_vertex_colors);
 
+	ObjectTypeDB::bind_method(_MD("set_vertex_alpha", "alpha_val"), &Polygon2D::set_vertex_alpha);
+	ObjectTypeDB::bind_method(_MD("get_vertex_alpha"), &Polygon2D::get_vertex_alpha);
+
 	ObjectTypeDB::bind_method(_MD("set_texture","texture"),&Polygon2D::set_texture);
 	ObjectTypeDB::bind_method(_MD("get_texture"),&Polygon2D::get_texture);
 
@@ -376,6 +389,7 @@ void Polygon2D::_bind_methods() {
 	ADD_PROPERTY( PropertyInfo(Variant::VECTOR2_ARRAY,"uv"),_SCS("set_uv"),_SCS("get_uv"));
 	ADD_PROPERTY( PropertyInfo(Variant::COLOR,"color"),_SCS("set_color"),_SCS("get_color"));
 	ADD_PROPERTY( PropertyInfo(Variant::COLOR_ARRAY,"vertex_colors"),_SCS("set_vertex_colors"),_SCS("get_vertex_colors"));
+	ADD_PROPERTY(PropertyInfo(Variant::REAL, "vertex_alpha", PROPERTY_HINT_RANGE, "0.0,1.0,0.001"), _SCS("set_vertex_alpha"), _SCS("get_vertex_alpha"));
 	ADD_PROPERTY( PropertyInfo(Variant::VECTOR2,"offset"),_SCS("set_offset"),_SCS("get_offset"));
 	ADD_PROPERTY( PropertyInfo(Variant::OBJECT,"texture/texture",PROPERTY_HINT_RESOURCE_TYPE,"Texture"),_SCS("set_texture"),_SCS("get_texture"));
 	ADD_PROPERTY( PropertyInfo(Variant::VECTOR2,"texture/offset"),_SCS("set_texture_offset"),_SCS("get_texture_offset"));
@@ -395,4 +409,5 @@ Polygon2D::Polygon2D() {
 	tex_scale=Vector2(1,1);
 	color=Color(1,1,1);
 	rect_cache_dirty=true;
+	vertex_alpha = 1.0;
 }
